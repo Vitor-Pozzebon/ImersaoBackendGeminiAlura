@@ -1,6 +1,12 @@
 import express from "express";
 import multer from "multer";
-import { listarPosts, postarNovoPost, uploadImagem } from "../controllers/postsController.js";
+import cors from "cors";
+import { listarPosts, postarNovoPost, uploadImagem, atualizarNovoPost } from "../controllers/postsController.js";
+
+const corsOptions = {
+    origin: "http://localhost:8000",
+    optionsSuccessStatus: 200
+}
 
 // função para o windows - uso do multer para imagens
 const storage = multer.diskStorage({
@@ -19,12 +25,19 @@ const upload = multer({ dest: "./uploads" , storage});
 const routes = (app) => {
     // permite que o servidor interprete JSON
     app.use(express.json());
+
+    app.use(cors(corsOptions));
+
     // rota para buscar todos os posts
     app.get("/posts", listarPosts);
+
     // rota para criar um novo post
     app.post("/posts", postarNovoPost);
+
     // rota para fazer upload de imagem
     app.post("/upload", upload.single("imagem"), uploadImagem);
+
+    app.put("/upload/:id", atualizarNovoPost);
 }
 
 export default routes;
