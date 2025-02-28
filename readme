@@ -1,0 +1,8 @@
+comandos NPM
+
+npm init es6 -y
+npm install express
+npm install mongodb
+
+No arquivo "package.json", inserir na parte "dev" embaixo do arquivo:
+node --watch --env-file=.env server.js
